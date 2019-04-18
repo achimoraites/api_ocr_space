@@ -1,6 +1,6 @@
 const FormData = require('form-data');
 const axios = require('axios');
-
+const axiosRetry = require('axios-retry');
 
   exports.sendRequest = function(options, apikey) {
       if(!options) {
@@ -13,8 +13,11 @@ const axios = require('axios');
       const {url = false, file = false, Base64Image = false} = options;
       const api = 'https://api.ocr.space/parse/image';
       if(!url && !file && !Base64Image) {
-          throw new Error('You need to specify one of : url, file or Base64Image');
+          throw new Error('You need to specify one of : url or Base64Image');
       }
+      const httpClient = axios.create();
+      httpClient.defaults.timeout = 10000;
+      axiosRetry(httpClient, { retries: 3 });
 
       const form = new FormData();
 
@@ -37,5 +40,5 @@ const axios = require('axios');
       form.append('apikey', apikey);
       const headers = Object.assign({apikey},form.getHeaders());
 
-      return axios.post(api,form,{headers: headers});
+      return httpClient.post(api,form,{headers: headers});
     };
