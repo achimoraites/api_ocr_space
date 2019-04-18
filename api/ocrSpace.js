@@ -11,6 +11,9 @@ const axiosRetry = require('axios-retry');
       }
 
       const {url = false, file = false, Base64Image = false, retries = 3, timeout = 10000} = options;
+      delete options.retries;
+      delete options.timeout;
+      
       const api = 'https://api.ocr.space/parse/image';
       if(!url && !file && !Base64Image) {
           throw new Error('You need to specify one of : url or Base64Image');
@@ -41,7 +44,7 @@ const axiosRetry = require('axios-retry');
 
       const httpClient = axios.create();
       httpClient.defaults.timeout = timeout;
-      axiosRetry(httpClient, { retries });
+      axiosRetry(httpClient, { retries: retries });
 
       return httpClient.post(api,form,{headers: headers});
     };
