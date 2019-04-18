@@ -1,6 +1,6 @@
 {
   "name": "api_ocr_space",
-  "version": "1.2.0",
+  "version": "1.1.1",
   "description": "A simple way to connect to ocr space api with node.js",
   "main": "api/ocrSpace",
   "scripts": {
