@@ -10,14 +10,11 @@ const axiosRetry = require('axios-retry');
           throw new Error('apiKey is required!');
       }
 
-      const {url = false, file = false, Base64Image = false} = options;
+      const {url = false, file = false, Base64Image = false, retries = 3, timeout = 10000} = options;
       const api = 'https://api.ocr.space/parse/image';
       if(!url && !file && !Base64Image) {
           throw new Error('You need to specify one of : url or Base64Image');
       }
-      const httpClient = axios.create();
-      httpClient.defaults.timeout = 10000;
-      axiosRetry(httpClient, { retries: 3 });
 
       const form = new FormData();
 
@@ -39,6 +36,12 @@ const axiosRetry = require('axios-retry');
       
       form.append('apikey', apikey);
       const headers = Object.assign({apikey},form.getHeaders());
+
+      // AXIOS
+
+      const httpClient = axios.create();
+      httpClient.defaults.timeout = timeout;
+      axiosRetry(httpClient, { retries });
 
       return httpClient.post(api,form,{headers: headers});
     };
