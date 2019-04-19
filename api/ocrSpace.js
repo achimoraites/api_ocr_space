@@ -2,6 +2,8 @@ const FormData = require('form-data');
 const axios = require('axios');
 const axiosRetry = require('axios-retry');
 
+const { getBase64FromImage } = require('./helpers');
+
   exports.sendRequest = function(options, apikey) {
       if(!options) {
         throw new Error('You need to specify the options');
@@ -26,7 +28,8 @@ const axiosRetry = require('axios-retry');
         delete options.url;
       }
       else if (file) {
-          form.append("file", file);
+        const base64 = getBase64FromImage(file);
+          form.append('Base64Image', base64);
           delete options.file;
       } else {
             form.append('Base64Image', Base64Image);

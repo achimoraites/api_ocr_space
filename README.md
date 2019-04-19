@@ -23,8 +23,30 @@ parse an image using a url
 
 })();
 ```
+parse a local image
+```
+(async () => {
+    const api = require('api_ocr_space');
+    
+    try {
+        const apiKey = "YOUR_API_KEY";
+        const options = {
+            file: "myimage.jpg",
+        };
+        
+        const res = await api.sendRequest(options, apiKey);
+        console.log(res.data);
+    } catch (error) {
+        console.log(error);
+    }
+})();
+
+```
+
+
 ### Advanced usage
-*** supported after version 1.1.1 *** specify retries and timeout
+*** supported after version 1.1.1 ***
+specify retries and timeout
 
 ```
 (async () => {
