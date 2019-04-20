@@ -1,8 +1,30 @@
 const FormData = require('form-data');
 const axios = require('axios');
 const axiosRetry = require('axios-retry');
+const fs = require('fs');
+const fileType = require('file-type');
 
-const { getBase64FromImage } = require('./helpers');
+const getBase64FromImage = image => {
+  if(!image) {
+      throw new Error('An image path or a buffer must be provided!');
+  }
+  if (typeof(image) == 'string') {
+      const buffer = fs.readFileSync(image);
+      const base64 = Buffer.from(buffer).toString('base64');
+      const mime = fileType(buffer).mime;
+      return `data:${mime};base64,${base64}`;
+  }
+  else if (typeof(image) == 'object') {
+      const base64 = Buffer.from(image).toString('base64');
+      const mime = fileType(image).mime;
+      return `data:${mime};base64,${base64}`;
+  } else {
+      throw new Error(`Unsupported input type : ${typeof(image)}`);
+  }
+  
+  
+  };
+  
 
   exports.sendRequest = function(options, apikey) {
       if(!options) {
