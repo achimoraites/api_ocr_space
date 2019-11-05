@@ -1,6 +1,6 @@
 {
   "name": "api_ocr_space",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A simple way to connect to ocr space api with node.js",
   "main": "api/ocrSpace",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Cyb3rN4u7/api_ocr_space#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": ">=0.18.1",
     "axios-retry": "^3.1.2",
     "file-type": "^10.11.0",
     "form-data": "^2.3.3"
